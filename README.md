@@ -1,74 +1,39 @@
 # Bookmark Manager
 
-Простое веб-приложение для управления закладками с импортом/экспортом HTML закладок Safari. Данные хранятся локально в браузере (localStorage).
+A simple browser-based bookmark manager with Safari HTML import/export. The app stores data locally in your browser using `localStorage`, so no backend is needed for online use.
 
-## Структура проекта
+## Online use
 
-- `frontend/` — React + TypeScript + Vite SPA с localStorage для хранения данных
-- `backend/` — Node.js + Express API с SQLite через Prisma (для локального запуска, не требуется для онлайн-версии)
+- Import bookmarks from a Safari HTML file.
+- Browse and search bookmarks.
+- Assign bookmarks to folders.
+- Export bookmarks back to HTML.
 
-## Запуск локально
+## Run locally
 
-### Только Frontend (рекомендуется для использования)
-
-1. Перейдите в папку `frontend`:
+1. Open the `frontend` folder:
    ```bash
    cd frontend
    ```
-2. Установите зависимости:
+2. Install dependencies:
    ```bash
    npm install
    ```
-3. Запустите приложение:
+3. Start the app:
    ```bash
    npm run dev
    ```
 
-Приложение будет доступно на http://localhost:5173
+The app will run at http://localhost:5173.
 
-### С Backend (для полной версии с сервером)
+## GitHub Pages
 
-1. Перейдите в папку `backend`:
-   ```bash
-   cd backend
-   ```
-2. Установите зависимости:
-   ```bash
-   npm install
-   ```
-3. Сгенерируйте Prisma-клиент и создайте базу данных:
-   ```bash
-   npx prisma generate
-   npx prisma migrate dev
-   ```
-4. Запустите сервер:
-   ```bash
-   npm run dev
-   ```
+This repository is configured for GitHub Pages deployment. The app is served from `/bookmarks/`.
 
-5. В отдельном терминале запустите frontend:
-   ```bash
-   cd ../frontend
-   npm run dev
-   ```
+## Note
 
-Backend на http://localhost:3000, frontend на http://localhost:5173
+The app is designed for online use as a static frontend. Local browser storage keeps your bookmarks private.
 
-## Развертывание онлайн
-
-Проект можно развернуть как статический сайт (только frontend) на бесплатных платформах:
-
-- **GitHub Pages**: настройте Pages для папки `frontend/dist`
-- **Netlify/Vercel**: подключите репозиторий, укажите build команду `npm run build` и папку `dist`
-- **Surge/Firebase**: залейте собранную папку `dist`
-
-## Функции
-
-- Импорт закладок из HTML файла Safari
-- Экспорт закладок в HTML формат
-- Управление папками
-- Перетаскивание для сортировки
-- Локальное хранение данных в браузере
 
 - Импорт закладок из HTML Safari
 - Просмотр списка закладок с поиском и сортировкой

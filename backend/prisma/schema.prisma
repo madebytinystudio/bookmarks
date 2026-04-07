@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Folder {
+  id        Int       @id @default(autoincrement())
+  name      String
+  parent    String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([name, parent])
+}
+
+model Bookmark {
+  id          Int      @id @default(autoincrement())
+  title       String
+  url         String
+  folder      String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}

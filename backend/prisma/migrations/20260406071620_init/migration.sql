@@ -1,0 +1,8 @@
+-- CreateTable
+CREATE TABLE "Bookmark" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "title" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
+    "folder" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

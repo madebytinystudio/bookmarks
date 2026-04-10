@@ -1,48 +1,72 @@
 # Bookmark Manager
 
-A simple browser-based bookmark manager with Safari HTML import/export. The app stores data locally in your browser using `localStorage`, so no backend is needed for online use.
+A lightweight bookmark manager with Safari/Netscape HTML import and export. The app stores data locally in your browser with `localStorage`, so you can use it as a static frontend without sending bookmark data to a server.
 
-## Online use
+## Features
 
-- Import bookmarks from a Safari HTML file.
-- Browse and search bookmarks.
-- Assign bookmarks to folders.
+- Import bookmarks from Safari or other Netscape-style bookmark HTML files.
+- Browse, search, sort, and edit bookmarks.
+- Organize bookmarks into folders.
+- Drag bookmarks onto folders to move them.
 - Export bookmarks back to HTML.
+- Undo recent actions with a countdown toast.
 
-## Run locally
+## Local Development
 
-1. Open the `frontend` folder:
+1. Install frontend dependencies:
    ```bash
    cd frontend
-   ```
-2. Install dependencies:
-   ```bash
    npm install
    ```
-3. Start the app:
+2. Start the frontend development server:
    ```bash
    npm run dev
    ```
 
-The app will run at http://localhost:5173.
+The frontend runs at `http://localhost:5173`.
+
+## Backend
+
+The main bookmark manager works as a static frontend and stores its data in browser storage. A backend is included in this repository for server-side experiments and API-based workflows.
+
+To run the backend locally:
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+The backend runs at `http://localhost:4000`.
 
 ## GitHub Pages
 
-This repository is configured for GitHub Pages deployment. The app is served from `/bookmarks/`.
+This repository is configured for GitHub Pages deployment. The published app is served from `/bookmarks/`.
 
-## Note
+The GitHub Actions workflow:
 
-The app is designed for online use as a static frontend. Local browser storage keeps your bookmarks private.
+- installs frontend dependencies with `npm ci`
+- builds the production bundle with `npm run build`
+- deploys `frontend/dist` to the `gh-pages` branch
 
+## Build
 
-- Импорт закладок из HTML Safari
-- Просмотр списка закладок с поиском и сортировкой
-- Удаление закладок
-- Экспорт закладок обратно в HTML
+To test the production build locally:
+
+```bash
+cd frontend
+npm run build
+```
 
 ## API
 
-- `GET /api/bookmarks` — получить список закладок
-- `POST /api/bookmarks/import` — импортировать HTML файл
-- `GET /api/bookmarks/export` — экспортировать все закладки в HTML
-- `DELETE /api/bookmarks/:id` — удалить закладку
+If you use the backend, these routes are available:
+
+- `GET /api/bookmarks` — list bookmarks
+- `POST /api/bookmarks/import` — import a bookmark HTML file
+- `GET /api/bookmarks/export` — export all bookmarks to HTML
+- `DELETE /api/bookmarks/:id` — delete a bookmark
+
+## Privacy
+
+When you use the frontend directly, bookmarks stay in your browser storage unless you explicitly export them.

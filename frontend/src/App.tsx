@@ -379,7 +379,9 @@ function App() {
                 onClick={() => {
                   const undo = toast.undo;
                   setToast(null);
-                  undo();
+                  if (undo) {
+                    undo();
+                  }
                 }}
               >
                 Undo{toastCountdown > 0 ? ` (${toastCountdown})` : ''}

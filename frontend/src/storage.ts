@@ -98,20 +98,50 @@ export function parseSafariBookmarksHtml(html: string): Array<Omit<Bookmark, 'id
     return trimmed.length ? trimmed.join(' / ') : null;
   }
 
+  function getDirectChildByTag(element: Element, tagName: string): Element | null {
+    return Array.from(element.children).find((child) => child.tagName.toUpperCase() === tagName) ?? null;
+  }
+
+  function getNextListElement(element: Element): Element | null {
+    let next = element.nextElementSibling;
+
+    while (next) {
+      if (next.tagName.toUpperCase() === 'DL') {
+        return next;
+      }
+
+      const nestedList = getDirectChildByTag(next, 'DL');
+      if (nestedList) {
+        return nestedList;
+      }
+
+      next = next.nextElementSibling;
+    }
+
+    return null;
+  }
+
   function traverse(element: Element, folderStack: string[]) {
     const children = Array.from(element.children);
 
     for (let i = 0; i < children.length; i++) {
       const child = children[i];
-      if (child.tagName === 'DT') {
-        const h3 = child.querySelector('h3');
-        const a = child.querySelector('a');
+      const tagName = child.tagName.toUpperCase();
+
+      if (tagName === 'P' || tagName === 'DL') {
+        traverse(child, folderStack);
+        continue;
+      }
+
+      if (tagName === 'DT') {
+        const h3 = getDirectChildByTag(child, 'H3');
+        const a = getDirectChildByTag(child, 'A');
 
         if (h3) {
           const folderName = h3.textContent?.trim() ?? ''; 
-          const nextSibling = child.nextElementSibling;
-          if (nextSibling && nextSibling.tagName === 'DL') {
-            traverse(nextSibling, [...folderStack, folderName]);
+          const nextList = getDirectChildByTag(child, 'DL') ?? getNextListElement(child);
+          if (nextList && folderName) {
+            traverse(nextList, [...folderStack, folderName]);
           }
         }
 
@@ -125,8 +155,6 @@ export function parseSafariBookmarksHtml(html: string): Array<Omit<Bookmark, 'id
             order: 0,
           });
         }
-      } else if (child.tagName === 'DL') {
-        traverse(child, folderStack);
       }
     }
   }
